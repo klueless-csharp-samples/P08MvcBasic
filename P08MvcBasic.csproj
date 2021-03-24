@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <CodeAnalysisRuleSet>StyleCop.ruleset</CodeAnalysisRuleSet>
+    <UserSecretsId>eba1afe1-c10c-4723-8693-4a5573c5ed55</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
