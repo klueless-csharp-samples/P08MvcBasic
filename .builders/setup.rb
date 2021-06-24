@@ -1,37 +1,42 @@
-require '_initialize.rb'
+# Goal (Build out all the files for P06, and then do P02)
+require 'config/_'
 
+run = 40
 
-def opinion_add_sql_server(builder)
-  # These are not currently fluent
-  builder.run_command('dotnet add package Microsoft.EntityFrameworkCore.SqlServer')
-  builder.run_command('dotnet add package Microsoft.EntityFrameworkCore.Design')
-  builder.run_command('dotnet add package Microsoft.EntityFrameworkCore.Tools')
+def builder
+  @builder ||= KBuilder::BaseBuilder.init
 end
 
-def opinion_add_pgsql(builder)
-  builder.run_command('dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL')
-  builder.run_command('dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL.Design')
+def opts
+  OpenStruct.new(
+    support_mssql: true,
+    support_pgsql: true,
+    app: app,
+    entities: entities
+  )
 end
 
-def opinion_initialize_secret(builder)
-  builder.run_command('dotnet user-secrets init')
+# puts JSON.pretty_generate(cfg.to_h)
+puts JSON.pretty_generate(opts.to_h)
 
-  # examples
-  # set a secret
-  # dotnet user-secrets set "Db:Password" "12345"
-  # dotnet user-secrets --help
+opinion_cop                                 if run == 1
+
+if run == 10 
+  opinion_add_sql_server                    if opts.support_mssql
+  opinion_add_pgsql                         if opts.support_pgsql
 end
 
-    # Add support for MS Sql and Postgres via EF4
-    # run_command 'dotnet add package StyleCop.Analyzers'
-    # run_command 'dotnet add package Microsoft.CodeAnalysis.FxCopAnalyzers'
+opinion_initialize_secret                   if run == 15
 
-builder = KBuilder::BaseBuilder
-  .init
-# opinion_add_sql_server(builder)
-# opinion_add_sql_server(builder)
-# opinion_initialize_secret(builder)
-    # .run_command 'dotnet add package StyleCop.Analyzers'
+# Documentation files
+structure_docs                              if run == 30
+
+# Entity framework context files
+structure_context                           if run == 40
+structure_models                            if run == 41
+
+# builder
+#   .add_file('Context/DbMsContext.cs'    , template_file: 'Context/DbMsContext.cs')
 
 
 
